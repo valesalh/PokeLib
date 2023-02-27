@@ -1,0 +1,14 @@
+@font-face {
+    font-family: POKEMON HOLLOW;
+    src: local('POKEMON HOLLOW'), url('Pokemon Hollow.ttf'), format(ttf);
+}
+
+@font-face {
+    font-family: POKEMON SOLID;
+    src: local('POKEMON SOLID'), url('Pokemon Solid.ttf'), format(ttf);
+}
+
+h1 {
+    font-family: 'POKEMON SOLID';
+    letter-spacing: .25rem;
+}

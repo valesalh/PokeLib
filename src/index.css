@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 255)); */
+  background-image: url('./pokeball-bg.jpg');
+  background-attachment: fixed;
 }
 
 code {
