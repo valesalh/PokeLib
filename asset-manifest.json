@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/pokeapp/static/css/main.93c10b06.css",
+    "main.js": "/pokeapp/static/js/main.f3646031.js",
+    "static/js/787.90e43d2f.chunk.js": "/pokeapp/static/js/787.90e43d2f.chunk.js",
+    "static/media/pokeball-bg.jpg": "/pokeapp/static/media/pokeball-bg.5095771f83edd5c38916.jpg",
+    "static/media/Pokemon Hollow.ttf": "/pokeapp/static/media/Pokemon Hollow.47f77ce9939c5330492b.ttf",
+    "static/media/Pokemon Solid.ttf": "/pokeapp/static/media/Pokemon Solid.5d60be1f7ff5fcc21fc1.ttf",
+    "index.html": "/pokeapp/index.html",
+    "main.93c10b06.css.map": "/pokeapp/static/css/main.93c10b06.css.map",
+    "main.f3646031.js.map": "/pokeapp/static/js/main.f3646031.js.map",
+    "787.90e43d2f.chunk.js.map": "/pokeapp/static/js/787.90e43d2f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.93c10b06.css",
+    "static/js/main.f3646031.js"
+  ]
+}
