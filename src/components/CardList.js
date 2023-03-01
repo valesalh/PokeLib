@@ -1,19 +1,18 @@
 import React from 'react';
 import Card from './Card'
 
-const CardList = ({pokemon}) => {
+const CardList = ({pokemon, onClickSprite}) => {
     return (
         <div>
             {
                 pokemon.map((pokemon, index) => {
-
-                    let pokeID = pokemon.url.split('/')[6];
-
                     return (<Card 
                         key={index} 
-                        id={pokeID} 
+                        id={pokemon.url.split('/')[6]} 
                         name={pokemon.name}
                         url={pokemon.url}
+                        // onClickSprite={onClickSprite}
+                        // currentImage={currentImage}
                         />
                     );
                 })
