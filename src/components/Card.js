@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Image from './Image';
 import 'tachyons';
 
 class Card extends Component {
@@ -9,7 +10,7 @@ class Card extends Component {
         this.state = {
             sprites: {},
             images: [],
-            //defaultImage: "",
+            currentImage: "",
         }
     }
 
@@ -31,7 +32,8 @@ class Card extends Component {
         }
     }
 
-    async fetchSprites(url) {
+    async fetchSprites() {
+        let { url } = this.props
         const response = await fetch(url);
         const data = await response.json();
         const sprites = data.sprites;
@@ -39,11 +41,10 @@ class Card extends Component {
     }
 
     async componentDidMount() {
-        let { id, url } = this.props;
-        //this.setState({defaultImage: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`});
-        this.setState({images: [`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`]});
+        let { id } = this.props;
+        this.setState({currentImage: [`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`]});
         
-        await this.fetchSprites(url).then(response => {
+        await this.fetchSprites().then(response => {
             this.setState({sprites: response});
         });
 
@@ -51,26 +52,37 @@ class Card extends Component {
     }
 
     onClickCard = () => {
-        let rotatedImages = this.state.images;
-        rotatedImages.push(rotatedImages.shift());
-        this.setState({ images: rotatedImages});
+        console.log(this.state.images);
+        // let rotatedImages = this.state.images;
+        // rotatedImages.push(rotatedImages.shift());
+        // let current = rotatedImages[0];
+        // this.setState({ 
+        //     images: rotatedImages,
+        //     currentImage: current
+        // });
     }
-
 
     /* 
         The parent "App" container sees it's limit and offset change, but these changes are not propogated properly to this class
         ...? because it has no concept of the parent classes state?
 
-        can possibly fix this by passing a prop to this class
+        can possibly fix this by passing a prop to this class 
+
+        consider making the image a component
     */
     render() {
-        let { currentImage, onClickSprite, name } = this.props;
-
-        //let image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+        let { id, name } = this.props;
+        let image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
         return (
             <div onClick={this.onClickCard} className="tc ba b--dark-gray ck bg-light-gray dib br3 pa3 ma2 grow bw2 shadow-5">
-                <img onClick={onClickSprite} style={{ width: 150, height: 150 }}alt={`${name}`} src={this.state.images[0]} />
+                {/* <img style={{ width: 150, height: 150 }} alt={`${name}`} src={this.state.images[0]} /> */}
+                <Image 
+                    // currentImage={this.state.currentImage}
+                    currentImage={image}
+                    onClickImage={this.onClickCard}
+                    imageName={name}
+                />
                 <div>
                     <h2>{name}</h2>
                     {/* <p>{url}</p> */}
