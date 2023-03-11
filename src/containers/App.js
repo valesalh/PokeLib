@@ -7,6 +7,7 @@ import LimitSelector from '../components/LimitSelector';
 import Scroll from '../components/Scroll';
 
 class App extends Component {
+
     constructor() {
         super();
         this.state = {
@@ -17,70 +18,61 @@ class App extends Component {
         }
     }
 
-    async fetchData() {
-        let url = `https://pokeapi.co/api/v2/pokemon?limit=1008`;
-        //let url = `https://pokeapi.co/api/v2/pokemon?limit=${this.state.limit}&offset=${this.state.offset}`;
-        console.log(url);
-        // fetch(url)
-        //     .then(response => response.json())
-        //     .then(data => this.setState({pokedex: data.results}));
-        
-        const response = await fetch(url);
-        const data = await response.json();
-        this.setState({pokedex: data.results});
-    }
-
-    async componentDidMount() {
-        this.fetchData();
-    }
-
     onSearchChange = (event) => {
         this.setState({searchfield: event.target.value});
     }
 
     onClickNext = () => {
-        this.setState((state) => ({
-            offset: state.offset + state.limit
+        this.setState(state => ({
+            offset: state.offset + state.limit,
         }));
     }
 
     onClickPrev = () => {
-        // if(this.state.offset - this.state.limit < 0) {
-        //     this.setState({offset: 0});
-        // } else {
-        //     this.setState((state) => ({
-        //         offset: state.offset = state.limit
-        //     }));
-        // }
-
-        this.state.offset - this.state.limit < 0 ? this.setState({offset: 0}) :
-        this.setState((state) => ({
-            offset: state.offset = state.limit
+        this.setState(state => ({
+            offset: state.offset - state.limit <= 0 ? 0 : state.offset - state.limit
         }));
     }
 
     onDisplayCountChange = (event) => {
-        console.log(event.target.value);
         this.setState({limit: Number(event.target.value)});
+    }
+
+    async fetchPokedex() {
+        // let url = `https://pokeapi.co/api/v2/pokemon?limit=${this.state.limit}&offset=${this.state.offset}`;
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1008`);
+        const data = await response.json();
+        this.setState({pokedex: data.results});
+    }
+
+    async componentDidMount() {
+        await this.fetchPokedex();
     }
 
     render() {
         const { pokedex, searchfield, offset, limit} = this.state;
         const filteredPokemon = pokedex.filter(pokemon => {
             return pokemon.name.toLowerCase().includes(searchfield.toLowerCase());
-        });
-        
+        }).slice(offset, offset + limit);
 
-        return !pokedex.length ? <h1 className='tc'>Loading...</h1> :
+        return !this.state.pokedex.length ? <h1 className='tc'>Loading...</h1> :
         (
             <div className='tc pb4'>
                 <h1>Pokemon Library</h1>
                 <SearchBox searchChange={this.onSearchChange}/>
                 <LimitSelector displayCountChange={this.onDisplayCountChange}/>
                 <Scroll>
-                    <CardList pokemon = {filteredPokemon.slice(offset, offset + limit)}/>
+                    <CardList 
+                        pokemon = {filteredPokemon} 
+                        />
                 </Scroll>
-                <PageButton offset={this.state.offset} limit={this.state.limit} onClickPrev={this.onClickPrev} onClickNext={this.onClickNext}/>
+                <PageButton 
+                    offset={this.state.offset} 
+                    limit={this.state.limit} 
+
+                    onClickPrev={this.onClickPrev} 
+                    onClickNext={this.onClickNext}
+                    />
             </div>
         )
     }

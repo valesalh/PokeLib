@@ -6,12 +6,10 @@ const CardList = ({pokemon}) => {
         <div>
             {
                 pokemon.map((pokemon, index) => {
-
-                    let pokeID = pokemon.url.split('/')[6];
-
+                    let id = pokemon.url.split('/')[6];
                     return (<Card 
-                        key={index} 
-                        id={pokeID} 
+                        key={id} 
+                        id={id} 
                         name={pokemon.name}
                         url={pokemon.url}
                         />
