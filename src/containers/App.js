@@ -55,7 +55,7 @@ class App extends Component {
             return pokemon.name.toLowerCase().includes(searchfield.toLowerCase());
         }).slice(offset, offset + limit);
 
-        return !this.state.pokedex.length ? <h1 className='tc'>Loading...</h1> :
+        return !pokedex.length ? <h1 className='tc'>Loading...</h1> :
         (
             <div className='tc pb4'>
                 <h1>Pokemon Library</h1>
@@ -67,8 +67,8 @@ class App extends Component {
                         />
                 </Scroll>
                 <PageButton 
-                    offset={this.state.offset} 
-                    limit={this.state.limit} 
+                    offset={offset} 
+                    limit={limit} 
 
                     onClickPrev={this.onClickPrev} 
                     onClickNext={this.onClickNext}
