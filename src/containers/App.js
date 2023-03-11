@@ -15,6 +15,11 @@ class App extends Component {
             searchfield: "",
             offset: 0,
             limit: 25,
+            // whenever Card.js makes an API call, send the data back here and cache it. 
+            // Change card data fetch to check if data exists in the cache already. 
+            // Pass the cache as a prop to Card.js
+            // object format will be id: [images] ???
+            cache: {},
         }
     }
 
