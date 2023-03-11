@@ -18,98 +18,44 @@ class App extends Component {
         }
     }
 
-    // onClickSprite = () => {
-
-    // }
-
     onSearchChange = (event) => {
         this.setState({searchfield: event.target.value});
     }
 
     onClickNext = () => {
-        this.setState((state) => ({
+        this.setState(state => ({
             offset: state.offset + state.limit,
         }));
     }
 
     onClickPrev = () => {
-        this.state.offset - this.state.limit <= 0 ? this.setState({offset: 0}) :
-        this.setState((state) => ({
-            offset: state.offset - state.limit
+        this.setState(state => ({
+            offset: state.offset - state.limit <= 0 ? 0 : state.offset - state.limit
         }));
-        this.fetchData();
     }
 
     onDisplayCountChange = (event) => {
-        //console.log(event.target.value);
         this.setState({limit: Number(event.target.value)});
     }
 
-    // loadAltImages(sprites) {
-    //     if(sprites.hasOwnProperty('other')) {
-    //         let keyObj = sprites['other'];
-    //         let toAppend = [];
-
-    //         Object.keys(keyObj).forEach((element) => {
-    //             let sprite = keyObj[element];
-    //             if(sprite.hasOwnProperty('front_default')) {
-    //                 toAppend.push(sprite['front_default']);
-    //             }
-    //         });
-
-    //         this.setState((state) => ({
-    //             images: state.images.concat(toAppend)
-    //         }));
-    //     }
-    // }
-
-    // async fetchSprites() {
-    //     Object.keys(this.state.pokedex).forEach(async (id) => {
-            
-    //         let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-    //         let pokeData = await response.json();
-    //         console.log(pokeData);
-
-    //     });
-
-    //     // const response = await fetch(url);
-    //     // const data = await response.json();
-    //     // const sprites = data.sprites;
-    //     // return sprites;
-    // }
-
-    async fetchData() {
-        let url = `https://pokeapi.co/api/v2/pokemon?limit=1008`;
-        //let url = `https://pokeapi.co/api/v2/pokemon?limit=${this.state.limit}&offset=${this.state.offset}`;
-        //console.log(url);
-        // fetch(url)
-        //     .then(response => response.json())
-        //     .then(data => this.setState({pokedex: data.results}));
-        
-        const response = await fetch(url);
+    async fetchPokedex() {
+        // let url = `https://pokeapi.co/api/v2/pokemon?limit=${this.state.limit}&offset=${this.state.offset}`;
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1008`);
         const data = await response.json();
         this.setState({pokedex: data.results});
     }
 
     async componentDidMount() {
-        await this.fetchData();
-        //this.fetchSprites();
-
-        // let url = await this.fetchData();
-        // await this.fetchSprites(url).then(response => {
-        //     this.setState({sprites: response});
-        // });
-
-        // this.loadAltImages();
+        await this.fetchPokedex();
     }
 
     render() {
         const { pokedex, searchfield, offset, limit} = this.state;
         const filteredPokemon = pokedex.filter(pokemon => {
             return pokemon.name.toLowerCase().includes(searchfield.toLowerCase());
-        });
+        }).slice(offset, offset + limit);
 
-        return !pokedex.length ? <h1 className='tc'>Loading...</h1> :
+        return !this.state.pokedex.length ? <h1 className='tc'>Loading...</h1> :
         (
             <div className='tc pb4'>
                 <h1>Pokemon Library</h1>
@@ -117,8 +63,7 @@ class App extends Component {
                 <LimitSelector displayCountChange={this.onDisplayCountChange}/>
                 <Scroll>
                     <CardList 
-                        pokemon = {filteredPokemon.slice(offset, offset + limit)} 
-                        // onClickSprite={this.onClickSprite}
+                        pokemon = {filteredPokemon} 
                         />
                 </Scroll>
                 <PageButton 
